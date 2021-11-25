@@ -1,11 +1,12 @@
 package Pirates;
+
 import java.util.Random;
 
 public class Pirate {
   protected static int number = 1;
   protected String name;
   protected int drunkLevel;
-  protected boolean isAlive=true;
+  protected boolean isAlive = true;
 
   public Pirate() {
     name = number + " számú kalóz";
