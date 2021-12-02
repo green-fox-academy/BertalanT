@@ -7,12 +7,15 @@ import java.awt.event.KeyListener;
 
 public class Board extends JComponent implements KeyListener {
 
+  int imgSize = 72;
+
+
   int testBoxX;
   int testBoxY;
 
   public Board() {
-    testBoxX = 300;
-    testBoxY = 300;
+//    testBoxX = 300; így középen jelenik meg
+//    testBoxY = 300;
 
     // beállítja a rajztábla méretét
     setPreferredSize(new Dimension(720, 720));
@@ -22,11 +25,18 @@ public class Board extends JComponent implements KeyListener {
   @Override
   public void paint(Graphics graphics) {
     super.paint(graphics);
-    graphics.fillRect(testBoxX, testBoxY, 100, 100);
+   // graphics.fillRect(testBoxX, testBoxY, 100, 100);
     // Van egy 720 x 720-as rajztábla
     // Az alábbi class-al készíthetsz és rajzolhatsz ki egy képet. pl.:
-    PositionedImage image = new PositionedImage("yourimage.png", 300, 300);
-    image.draw(graphics);
+    for (int i = 0; i <10 ; i++) {
+      for (int j = 0; j <10 ; j++) {
+        PositionedImage floorImage = new PositionedImage("img/floor.png", i * imgSize, j * imgSize );
+        floorImage.draw(graphics);
+      }
+    }
+
+    PositionedImage heroImage = new PositionedImage("img/hero-down.png", testBoxX, testBoxY);
+    heroImage.draw(graphics);
   }
 
   public static void main(String[] args) {
@@ -44,6 +54,7 @@ public class Board extends JComponent implements KeyListener {
     // Figyeld meg, (fent) hogy csak így tudjuk kivitelezni
     // mivel a Board class (a board object típusa) is egy KeyListener
   }
+
   // Hogy legyen egy KeyListenerünk, a classnak erre a 3 függvényre van szüksége.
   @Override
   public void keyTyped(KeyEvent e) {
@@ -54,16 +65,23 @@ public class Board extends JComponent implements KeyListener {
   public void keyPressed(KeyEvent e) {
 
   }
+
   // De valójában csak ezt a függvényt használjuk a projekt során
   @Override
   public void keyReleased(KeyEvent e) {
     // Mikor megnyomódik a lefele vagy felfele gomb, a négyzetünk pozíciója változik
     if (e.getKeyCode() == KeyEvent.VK_UP) {
-      testBoxY -= 100;
-    } else if(e.getKeyCode() == KeyEvent.VK_DOWN) {
-      testBoxY += 100;
+      testBoxY -= imgSize;
+    } else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
+      testBoxY += imgSize;
+    } else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
+      testBoxX += imgSize;
+    } else if (e.getKeyCode() == KeyEvent.VK_LEFT) {
+      testBoxX -= imgSize;
+    } else if (e.getKeyCode() == KeyEvent.VK_SPACE) {
+      System.out.println("FIGHT!");
     }
-    // és újra rajzolódik az új koordinátákkal
+    // és újra testBoxX += 100;  rajzolódik az új koordinátákkal
     repaint();
 
   }
